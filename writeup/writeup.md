@@ -75,17 +75,16 @@ Finally, an image has been extracted from (the first frame of) challenge.mp4 for
 
 ### 5. Tests on Sample Videos
 
+The code is run against two sample input videos: solidWhiteRight.mp4 and solidYellowLeft.mp4. The former is a rather short clip of approx. 8 seconds, while the latter ran about 27 seconds. I did not notice any significant gap in terms of difficulties in finding lane lines in the images, though the guide document said something in that direction.
+
+However, when the final (optional) video challenge.mp4 is given as input, first the detection did a really poor job in finding lane lines. Later, a potential bug was found in the code. While the dimension of this video was different from the former two, there was a couple of hard-coded coordinate calculations within functions. (While coding, I decided to put a *temporary* constant to them since I did not come up with an appropriate parameter passing scheme. I forgot afterwards while implementing other functions, saw reasonable results in a limited set of inputs, and the constants remained there - a very common mistake less trained programmers make.)
+
+After a while of testing and debugging, the lane lines were detected in challenge.mp4 as well, but the result was not very satisfactory, with the drawn lines flickered here and there sometimes. Discussions follow in the next sections.
 
 ### 6. Identify potential shortcomings with your current pipeline
 
+In real life, lane lines do not come from nowhere. A lane line is a continuous stretch of (sometimes straight, sometimes curvy) line intended to guide the driver. However, in processing the video stream, every frame is treated separately, causing a few glitches in finding the lines. A smooth approximation would be better, which is indeed how we use our senses (mostly vision) in human driving.
 
-One potential shortcoming would be what would happen when ... 
+### 7. Suggest possible improvements to your pipeline
 
-Another shortcoming could be ...
-
-
-### 3. Suggest possible improvements to your pipeline
-
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+A very simple filter is expected to smooth out abrupt position changes of determined lines found here and there in the sample videos. This improvement should be necessary when we make driving decisions based on lane detection (possibly along with other sensor data).
